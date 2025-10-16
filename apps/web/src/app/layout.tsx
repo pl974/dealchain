@@ -56,8 +56,8 @@ export default function RootLayout({
             <footer className="border-t py-6 md:py-0">
               <div className="container mx-auto flex flex-col items-center justify-between gap-4 md:h-24 md:flex-row px-4">
                 <p className="text-center text-sm leading-loose text-muted-foreground md:text-left">
-                  Built with 💜 on Solana. 100% Secure Smart Contract (10/10
-                  Audit Score)
+                  Built with 💜 on Solana for MonkeDAO Grant - Cypherpunk
+                  Hackathon 2025
                 </p>
                 <div className="flex items-center gap-4 text-sm text-muted-foreground">
                   <a
@@ -75,10 +75,10 @@ export default function RootLayout({
                     Docs
                   </a>
                   <a
-                    href="/security"
+                    href="/about"
                     className="hover:text-foreground transition-colors"
                   >
-                    Security
+                    About
                   </a>
                 </div>
               </div>

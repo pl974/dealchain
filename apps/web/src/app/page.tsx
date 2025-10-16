@@ -37,7 +37,7 @@ export default function HomePage() {
             {/* Badge */}
             <Badge variant="secondary" className="text-sm px-4 py-1.5">
               <Sparkles className="h-3 w-3 mr-1" />
-              100% Secure Smart Contract (10/10 Audit Score)
+              Built for MonkeDAO Grant - Cypherpunk Hackathon 2025
             </Badge>
 
             {/* Main Heading */}
@@ -77,10 +77,10 @@ export default function HomePage() {
             <div className="grid grid-cols-2 md:grid-cols-4 gap-8 pt-12">
               <div>
                 <p className="text-3xl md:text-4xl font-bold text-primary">
-                  10/10
+                  NFT
                 </p>
                 <p className="text-sm text-muted-foreground mt-1">
-                  Security Score
+                  Powered Coupons
                 </p>
               </div>
               <div>
@@ -104,7 +104,7 @@ export default function HomePage() {
                   100%
                 </p>
                 <p className="text-sm text-muted-foreground mt-1">
-                  Ownership
+                  Your Ownership
                 </p>
               </div>
             </div>
@@ -131,10 +131,10 @@ export default function HomePage() {
                 <div className="h-12 w-12 rounded-lg bg-primary/10 flex items-center justify-center mb-4">
                   <Shield className="h-6 w-6 text-primary" />
                 </div>
-                <CardTitle>100% Secure</CardTitle>
+                <CardTitle>Built on Solana</CardTitle>
                 <CardDescription>
-                  Audited smart contract with 10/10 security score. All 12
-                  vulnerabilities fixed.
+                  Production-ready smart contract deployed on Solana's
+                  high-performance blockchain.
                 </CardDescription>
               </CardHeader>
             </Card>
