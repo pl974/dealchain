@@ -276,10 +276,7 @@ pub mod dealchain {
             authority: ctx.accounts.user.to_account_info(),
         };
         token::burn(
-            CpiContext::new(
-                ctx.accounts.token_program.to_account_info(),
-                burn_accounts,
-            ),
+            CpiContext::new(ctx.accounts.token_program.to_account_info(), burn_accounts),
             1,
         )?;
 
@@ -294,11 +291,7 @@ pub mod dealchain {
     }
 
     /// Submit review - SECURED with ownership verification
-    pub fn submit_review(
-        ctx: Context<SubmitReview>,
-        rating: u8,
-        comment: String,
-    ) -> Result<()> {
+    pub fn submit_review(ctx: Context<SubmitReview>, rating: u8, comment: String) -> Result<()> {
         // Validate rating
         require!(
             rating >= MIN_RATING && rating <= MAX_RATING,
@@ -317,10 +310,7 @@ pub mod dealchain {
         let has_redeemed = ctx.accounts.redemption_record.user == ctx.accounts.user.key()
             && ctx.accounts.redemption_record.coupon == ctx.accounts.coupon.key();
 
-        require!(
-            owns_nft || has_redeemed,
-            ErrorCode::MustOwnCouponToReview
-        );
+        require!(owns_nft || has_redeemed, ErrorCode::MustOwnCouponToReview);
 
         let review = &mut ctx.accounts.review;
         let merchant = &mut ctx.accounts.merchant;
@@ -355,10 +345,7 @@ pub mod dealchain {
     }
 
     /// Update coupon status (merchant only)
-    pub fn update_coupon_status(
-        ctx: Context<UpdateCouponStatus>,
-        is_active: bool,
-    ) -> Result<()> {
+    pub fn update_coupon_status(ctx: Context<UpdateCouponStatus>, is_active: bool) -> Result<()> {
         let coupon = &mut ctx.accounts.coupon;
         coupon.is_active = is_active;
 
@@ -474,7 +461,8 @@ pub mod dealchain {
 // ============ VALIDATION HELPERS ============
 
 fn is_valid_utf8(s: &str) -> bool {
-    s.chars().all(|c| !c.is_control() || c == '\n' || c == '\r' || c == '\t')
+    s.chars()
+        .all(|c| !c.is_control() || c == '\n' || c == '\r' || c == '\t')
 }
 
 fn is_valid_uri(uri: &str) -> bool {
