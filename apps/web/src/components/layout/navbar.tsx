@@ -17,8 +17,8 @@ import { cn } from '@/lib/utils'
 
 const navigation = [
   { name: 'Marketplace', href: '/marketplace', icon: ShoppingBag },
-  { name: 'Merchants', href: '/merchants', icon: Store },
-  { name: 'My Deals', href: '/my-deals', icon: User },
+  { name: 'Merchant', href: '/merchant', icon: Store },
+  { name: 'Profile', href: '/profile', icon: User },
 ]
 
 export function Navbar() {
