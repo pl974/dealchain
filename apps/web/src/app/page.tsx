@@ -37,7 +37,7 @@ export default function HomePage() {
             {/* Badge */}
             <Badge variant="secondary" className="text-sm px-4 py-1.5">
               <Sparkles className="h-3 w-3 mr-1" />
-              Built for MonkeDAO Grant - Cypherpunk Hackathon 2025
+              The Future of Coupons is Here
             </Badge>
 
             {/* Main Heading */}

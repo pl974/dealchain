@@ -56,8 +56,7 @@ export default function RootLayout({
             <footer className="border-t py-6 md:py-0">
               <div className="container mx-auto flex flex-col items-center justify-between gap-4 md:h-24 md:flex-row px-4">
                 <p className="text-center text-sm leading-loose text-muted-foreground md:text-left">
-                  Built with 💜 on Solana for MonkeDAO Grant - Cypherpunk
-                  Hackathon 2025
+                  Built with 💜 on Solana - Revolutionizing the Coupon Industry
                 </p>
                 <div className="flex items-center gap-4 text-sm text-muted-foreground">
                   <a
