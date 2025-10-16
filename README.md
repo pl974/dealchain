@@ -1,537 +1,364 @@
-# DealChain - Web3 Discount Marketplace
+# 🛍️ DealChain
 
-![DealChain Banner](https://via.placeholder.com/1200x300/8b5cf6/ffffff?text=DealChain+-+NFT+Coupons+on+Solana)
+> **The Future of Coupons is Here** - Revolutionizing the Coupon Industry on Solana
 
-> **Transforming discounts into tradeable digital assets on Solana blockchain**
+DealChain is a Web3 discount marketplace where coupons become tradable NFTs. Built on Solana for lightning-fast transactions, true ownership, and zero platform fees.
 
-A decentralized coupon marketplace where every promotion is an NFT - verifiable, transferable, and user-owned. Built for the Cypherpunk Hackathon (MonkeDAO Grant).
-
----
-
-## Features
-
-- **NFT Coupons**: Each deal is a unique, transferable NFT with real-world utility
-- **Merchant Dashboard**: Create and manage promotional campaigns with ease
-- **Marketplace**: Browse, purchase, and resell discount NFTs
-- **QR Redemption**: Secure on-chain verification system
-- **Social Layer**: Reviews, ratings, and community-driven discovery
-- **Loyalty Badges**: NFT-based reputation system with exclusive perks
-- **Multi-Category**: Travel, Food, Shopping, Entertainment, and more
+[![Built with Solana](https://img.shields.io/badge/Built%20with-Solana-9945FF?style=for-the-badge&logo=solana)](https://solana.com)
+[![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
+[![Next.js](https://img.shields.io/badge/Next.js-000000?style=for-the-badge&logo=next.js&logoColor=white)](https://nextjs.org/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge)](https://opensource.org/licenses/MIT)
 
 ---
 
-## Tech Stack
+## 🌟 Features
 
-### Blockchain
-- **Solana** - Fast, low-cost blockchain
-- **Anchor 0.29.0** - Rust-based smart contract framework
-- **Metaplex Token Metadata** - NFT standard implementation
-- **SPL Token** - Token program for transactions
+### For Users
+- 🎫 **NFT Coupons** - Your deals are true assets you own and control
+- ⚡ **Instant Transactions** - Powered by Solana's high-performance blockchain
+- 💰 **Zero Platform Fees** - Keep 100% of your savings
+- 🏆 **Loyalty Rewards** - Earn points and unlock tiers (Bronze → Silver → Gold → Platinum)
+- ✅ **Verified Reviews** - Only real buyers can review merchants
+- 🔄 **Tradable Assets** - Buy, sell, gift, or trade your coupons freely
 
-### Frontend
-- **Next.js 14** - React framework with App Router
-- **TypeScript** - Type-safe development
-- **TailwindCSS** - Utility-first CSS framework
-- **shadcn/ui** - High-quality UI components
-- **Radix UI** - Accessible component primitives
-- **Framer Motion** - Animation library
-- **Solana Wallet Adapter** - Multi-wallet support
-
-### State Management
-- **Zustand** - Lightweight state management
-- **React Query** - Server state management
-
-### Backend
-- **Node.js + Express** - REST API
-- **Prisma** - Type-safe database ORM
-- **PostgreSQL** - Relational database
-- **Redis** - Caching and rate limiting
-- **Bull** - Job queue for async tasks
-
-### Storage & APIs
-- **IPFS (Pinata)** - Decentralized metadata storage
-- **Cloudinary** - Image optimization
-- **Skyscanner API** - Flight deals aggregation
-- **Booking.com API** - Hotel deals aggregation
+### For Merchants
+- 📊 **Campaign Management** - Create and track discount campaigns
+- 📈 **Real-time Analytics** - Monitor sales, revenue, and customer engagement
+- 🎯 **Targeted Marketing** - Reach crypto-native customers
+- 🔒 **Instant Settlement** - Get paid immediately in USDC
+- 📱 **Easy Onboarding** - Set up campaigns in minutes
+- 🌐 **Global Reach** - No geographical limitations
 
 ---
 
-## Project Structure
-
-```
-dealchain/
-├── apps/
-│   ├── web/                  # Next.js frontend application
-│   │   ├── src/
-│   │   │   ├── app/         # App router pages
-│   │   │   ├── components/   # React components
-│   │   │   ├── lib/         # Utilities and helpers
-│   │   │   ├── hooks/       # Custom React hooks
-│   │   │   ├── store/       # Zustand stores
-│   │   │   └── types/       # TypeScript types
-│   │   ├── public/          # Static assets
-│   │   └── package.json
-│   │
-│   └── api/                  # Express backend API
-│       ├── src/
-│       │   ├── routes/      # API routes
-│       │   ├── controllers/ # Route controllers
-│       │   ├── services/    # Business logic
-│       │   ├── middleware/  # Express middleware
-│       │   └── prisma/      # Database schema
-│       └── package.json
-│
-├── packages/
-│   ├── anchor/              # Solana smart contracts
-│   │   ├── programs/
-│   │   │   └── dealchain/
-│   │   │       └── src/
-│   │   │           └── lib.rs  # Main program
-│   │   ├── tests/          # Anchor tests
-│   │   ├── Anchor.toml
-│   │   └── Cargo.toml
-│   │
-│   ├── ui/                  # Shared UI components
-│   ├── config/              # Shared configuration
-│   └── types/               # Shared TypeScript types
-│
-├── docs/                    # Documentation
-├── package.json            # Root package.json (monorepo)
-├── turbo.json              # Turborepo configuration
-└── README.md
-```
-
----
-
-## Smart Contract Architecture
-
-### Program Instructions
-
-1. **`initialize_merchant`** - Register a new merchant account
-2. **`create_coupon`** - Mint a new coupon NFT campaign
-3. **`purchase_coupon`** - Buy a coupon NFT from marketplace
-4. **`redeem_coupon`** - Redeem coupon at merchant location
-5. **`submit_review`** - Leave a rating/review for a coupon
-6. **`update_coupon_status`** - Activate/deactivate coupons
-7. **`initialize_loyalty_badge`** - Create user loyalty NFT
-8. **`update_loyalty_badge`** - Update loyalty tier and points
-
-### Account Structures
-
-#### Merchant Account
-```rust
-pub struct Merchant {
-    pub authority: Pubkey,
-    pub name: String,              // Max 100 chars
-    pub description: String,       // Max 500 chars
-    pub total_coupons_created: u32,
-    pub total_redemptions: u32,
-    pub total_revenue: u64,
-    pub rating_sum: u64,
-    pub rating_count: u32,
-    pub is_verified: bool,
-    pub created_at: i64,
-    pub bump: u8,
-}
-```
-
-#### Coupon Account
-```rust
-pub struct Coupon {
-    pub mint: Pubkey,
-    pub merchant: Pubkey,
-    pub discount_percent: u8,      // 0-100
-    pub discount_fixed: u64,
-    pub price: u64,
-    pub expiry_timestamp: i64,
-    pub max_redemptions: u32,
-    pub current_redemptions: u32,
-    pub category: CouponCategory,
-    pub is_transferable: bool,
-    pub is_active: bool,
-    pub metadata_uri: String,      // IPFS URI
-    pub created_at: i64,
-    pub total_purchases: u32,
-    pub bump: u8,
-}
-```
-
-#### Loyalty Badge Account
-```rust
-pub struct LoyaltyBadge {
-    pub user: Pubkey,
-    pub tier: LoyaltyTier,         // Bronze, Silver, Gold, Platinum
-    pub deals_purchased: u32,
-    pub total_saved: u64,
-    pub points: u32,
-    pub created_at: i64,
-    pub bump: u8,
-}
-```
-
-### Security Features
-
-- **PDA (Program Derived Addresses)** for deterministic account generation
-- **Ownership validation** before redemption
-- **Expiry checks** to prevent expired coupon usage
-- **Supply limits** to prevent over-redemption
-- **Authority constraints** for merchant-only actions
-- **Overflow checks** in release mode
-
----
-
-## Installation & Setup
+## 🚀 Quick Start
 
 ### Prerequisites
-
-```bash
-# Node.js 18+
-node --version
-
-# Rust & Solana CLI
-sh -c "$(curl -sSfL https://release.solana.com/stable/install)"
-curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
-
-# Anchor CLI
-cargo install --git https://github.com/coral-xyz/anchor avm --locked --force
-avm install latest
-avm use latest
-
-# pnpm (recommended for monorepo)
-npm install -g pnpm
-```
+- Node.js 18+ and pnpm
+- Solana wallet (Phantom, Solflare, etc.)
+- Git
 
 ### Installation
 
 ```bash
-# Clone repository
-git clone https://github.com/your-org/dealchain.git
+# Clone the repository
+git clone https://github.com/pl974/dealchain.git
 cd dealchain
 
 # Install dependencies
 pnpm install
 
-# Generate Solana keypair (if needed)
-solana-keygen new -o ~/.config/solana/id.json
+# Start development server
+pnpm dev
+```
 
-# Setup environment variables
-cp apps/web/.env.example apps/web/.env
-cp apps/api/.env.example apps/api/.env
-# Edit .env files with your configuration
+Visit http://localhost:3000 to see the app in action!
+
+### Project Structure
+
+```
+dealchain/
+├── apps/
+│   └── web/                 # Next.js frontend application
+│       ├── src/
+│       │   ├── app/         # App Router pages
+│       │   │   ├── page.tsx           # Landing page
+│       │   │   ├── marketplace/       # Browse deals
+│       │   │   ├── merchant/          # Merchant dashboard
+│       │   │   └── profile/           # User profile
+│       │   ├── components/  # React components
+│       │   │   ├── ui/               # shadcn/ui components
+│       │   │   ├── wallet/           # Wallet integration
+│       │   │   └── layout/           # Layout components
+│       │   └── lib/         # Utilities
+│       └── public/          # Static assets
+├── packages/
+│   └── anchor/              # Solana smart contracts
+│       ├── programs/
+│       │   └── dealchain/   # Anchor program
+│       └── tests/           # Contract tests
+├── CHANGELOG.md             # Version history
+├── UI_UX_OVERVIEW.md        # Design documentation
+└── turbo.json               # Turborepo configuration
+```
+
+---
+
+## 💻 Tech Stack
+
+### Frontend
+- **Framework**: [Next.js 14](https://nextjs.org/) with App Router
+- **Language**: [TypeScript](https://www.typescriptlang.org/) (strict mode)
+- **Styling**: [TailwindCSS](https://tailwindcss.com/)
+- **Components**: [shadcn/ui](https://ui.shadcn.com/) + [Radix UI](https://www.radix-ui.com/)
+- **Icons**: [Lucide React](https://lucide.dev/)
+- **Fonts**: [Inter](https://fonts.google.com/specimen/Inter) (Google Fonts)
+
+### Blockchain
+- **Network**: [Solana](https://solana.com/)
+- **Framework**: [Anchor](https://www.anchor-lang.com/)
+- **Wallet Adapter**: [@solana/wallet-adapter-react](https://github.com/solana-labs/wallet-adapter)
+- **Supported Wallets**: Phantom, Solflare, Torus, Ledger
+
+### Infrastructure
+- **Monorepo**: [Turborepo](https://turbo.build/)
+- **Package Manager**: [pnpm](https://pnpm.io/)
+- **CI/CD**: GitHub Actions
+- **Deployment**: Vercel (frontend) + Solana (contracts)
+
+---
+
+## 📱 Pages Overview
+
+### 🏠 Landing Page (`/`)
+- Hero section with value proposition
+- Feature showcase (6 key features)
+- Stats highlights (NFT-powered, 0% fees, instant, 100% ownership)
+- Call-to-action buttons
+- Fully responsive with animated background
+
+### 🛒 Marketplace (`/marketplace`)
+- Browse all available deals
+- Search and filter functionality
+- Deal cards with images, discounts, ratings
+- Stock levels and expiry countdowns
+- Progress bars for visual stock indicators
+- Category filtering (Food, Travel, Shopping, etc.)
+
+### 🏪 Merchant Dashboard (`/merchant`)
+- Campaign management interface
+- Real-time stats (revenue, sales, customers, rating)
+- Campaign cards with detailed metrics
+- Create deal dialog
+- Edit/Delete/View campaign actions
+- Low stock warnings
+- Visual progress bars
+
+### 👤 User Profile (`/profile`)
+- User stats and wallet info
+- Loyalty tier system with progress bar
+- My Deals section (owned NFT coupons)
+- Transaction history with explorer links
+- Copy-to-clipboard for addresses
+- Redeem functionality for active coupons
+
+---
+
+## 🎨 Design System
+
+### Color Palette
+- **Primary**: Purple gradient (crypto standard)
+- **Secondary**: Complementary accent
+- **Background**: Adaptive dark/light
+- **Muted**: Subtle grays for secondary content
+- **Success**: Green (verified, active)
+- **Warning**: Yellow (expiring soon)
+- **Info**: Blue (verified merchants)
+- **Destructive**: Red (critical actions)
+
+### Typography
+- **Font**: Inter (Google Fonts)
+- **Headings**: Bold with gradient text
+- **Body**: Clean 16px base
+- **Code**: Monospace for addresses
+
+### Components
+All components built with shadcn/ui + Radix UI:
+- Card (with Header, Content, Footer)
+- Badge (7 variants)
+- Button (5 variants, 4 sizes)
+- Input (text, number, file)
+- Select (dropdown with keyboard nav)
+- Dialog (modals with animations)
+
+See `UI_UX_OVERVIEW.md` for detailed design documentation.
+
+---
+
+## 🔧 Development
+
+### Available Scripts
+
+```bash
+# Development
+pnpm dev              # Start dev server (all workspaces)
+pnpm dev:web          # Start web app only
+pnpm dev:anchor       # Start Anchor localnet
+
+# Building
+pnpm build            # Build all workspaces
+pnpm build:web        # Build web app only
+pnpm build:anchor     # Build Anchor program
+
+# Testing
+pnpm test             # Run all tests
+pnpm test:web         # Test web app
+pnpm test:anchor      # Test smart contracts
+
+# Linting
+pnpm lint             # Lint all workspaces
+pnpm lint:fix         # Auto-fix linting issues
+
+# Cleaning
+pnpm clean            # Clean all build artifacts
 ```
 
 ### Environment Variables
 
-#### Frontend (`apps/web/.env`)
+Create `.env.local` in `apps/web/`:
+
 ```env
+# Solana Network
 NEXT_PUBLIC_SOLANA_NETWORK=devnet
-NEXT_PUBLIC_RPC_ENDPOINT=https://api.devnet.solana.com
-NEXT_PUBLIC_PROGRAM_ID=DChain11111111111111111111111111111111111111
-NEXT_PUBLIC_API_URL=http://localhost:4000
-```
+NEXT_PUBLIC_SOLANA_RPC_ENDPOINT=https://api.devnet.solana.com
 
-#### Backend (`apps/api/.env`)
-```env
-DATABASE_URL=postgresql://user:password@localhost:5432/dealchain
-REDIS_URL=redis://localhost:6379
-PINATA_API_KEY=your_pinata_key
-PINATA_SECRET=your_pinata_secret
-SOLANA_RPC_URL=https://api.devnet.solana.com
+# Smart Contract
+NEXT_PUBLIC_PROGRAM_ID=your_program_id_here
+
+# Optional
+NEXT_PUBLIC_ANALYTICS_ID=your_analytics_id
 ```
 
 ---
 
-## Development
+## 🧪 Testing
 
-### Build Smart Contracts
-
-```bash
-# Build Anchor program
-cd packages/anchor
-anchor build
-
-# Deploy to devnet
-anchor deploy --provider.cluster devnet
-
-# Run tests
-anchor test
-```
-
-### Run Frontend
-
-```bash
-# From root directory
-pnpm dev
-
-# Or specifically run web app
-cd apps/web
-pnpm dev
-```
-
-Visit `http://localhost:3000`
-
-### Run Backend API
-
-```bash
-# From root directory
-cd apps/api
-pnpm dev
-```
-
-API available at `http://localhost:4000`
-
-### Run All in Parallel
-
-```bash
-# From root (uses Turborepo)
-pnpm dev
-```
-
----
-
-## Usage Guide
-
-### For Users
-
-1. **Connect Wallet**
-   - Click "Connect Wallet" button
-   - Select your Solana wallet (Phantom, Solflare, etc.)
-
-2. **Browse Deals**
-   - Navigate to Marketplace
-   - Filter by category, price, location
-   - Search for specific deals
-
-3. **Purchase Coupon**
-   - Click on a deal card
-   - Review details and click "Buy Now"
-   - Approve transaction in wallet
-   - NFT minted to your wallet
-
-4. **Redeem Coupon**
-   - Go to "My Coupons" in profile
-   - Select coupon to redeem
-   - Generate QR code
-   - Show QR to merchant for scanning
-
-### For Merchants
-
-1. **Register as Merchant**
-   - Go to Merchant Dashboard
-   - Click "Become a Merchant"
-   - Fill in business details
-   - Submit on-chain
-
-2. **Create Deal**
-   - Navigate to "Create Deal"
-   - Upload deal image
-   - Set discount, price, expiry, quantity
-   - Select category
-   - Mint NFT coupons
-
-3. **Manage Deals**
-   - View all active deals
-   - Pause/activate deals
-   - View analytics (sales, redemptions)
-
-4. **Verify Redemptions**
-   - Open QR scanner
-   - Scan customer's coupon QR
-   - Verify on-chain ownership
-   - Approve redemption
-
----
-
-## API Endpoints
-
-### Deals
-- `GET /api/deals` - List all deals
-- `GET /api/deals/:id` - Get deal details
-- `POST /api/deals` - Create new deal (merchant only)
-- `PATCH /api/deals/:id` - Update deal
-- `DELETE /api/deals/:id` - Delete deal
-
-### Users
-- `GET /api/users/:wallet` - Get user profile
-- `GET /api/users/:wallet/coupons` - Get user's coupons
-- `POST /api/users/:wallet/loyalty` - Initialize loyalty badge
-
-### Merchants
-- `GET /api/merchants` - List all merchants
-- `GET /api/merchants/:id` - Get merchant details
-- `POST /api/merchants` - Register merchant
-- `GET /api/merchants/:id/analytics` - Get merchant analytics
-
-### Redemptions
-- `POST /api/redemptions/verify` - Verify QR code
-- `POST /api/redemptions/redeem` - Submit redemption on-chain
-
----
-
-## Testing
-
-### Smart Contract Tests
+### Smart Contract Testing
 
 ```bash
 cd packages/anchor
 anchor test
 ```
 
-### Frontend Tests
+### Frontend Testing
 
 ```bash
 cd apps/web
 pnpm test
 ```
 
-### E2E Tests
+### E2E Testing
 
 ```bash
-# Run Cypress E2E tests
 pnpm test:e2e
 ```
 
 ---
 
-## Deployment
+## 🚢 Deployment
 
-### Deploy Smart Contract
+### Smart Contract Deployment
 
 ```bash
-# Build for production
+# Deploy to devnet
 cd packages/anchor
-anchor build --verifiable
+anchor build
+anchor deploy --provider.cluster devnet
 
-# Deploy to mainnet-beta
-anchor deploy --provider.cluster mainnet
-
-# Update program ID in frontend
-# Copy new program ID to apps/web/.env
+# Deploy to mainnet
+anchor deploy --provider.cluster mainnet-beta
 ```
 
-### Deploy Frontend (Vercel)
+### Frontend Deployment
 
+The frontend is automatically deployed via GitHub Actions on push to `master`.
+
+Manual deployment:
 ```bash
-# Link to Vercel
 cd apps/web
-vercel link
-
-# Deploy to production
+pnpm build
 vercel --prod
 ```
 
-### Deploy Backend (Railway)
+---
 
-```bash
-# Initialize Railway project
-cd apps/api
-railway init
+## 📖 Documentation
 
-# Deploy
-railway up
-```
+- **UI/UX Overview**: See `UI_UX_OVERVIEW.md` for complete design documentation
+- **Changelog**: See `CHANGELOG.md` for version history and roadmap
+- **Smart Contract**: See `packages/anchor/programs/dealchain/` for contract code
+- **Components**: See `apps/web/src/components/` for component library
 
 ---
 
-## Roadmap
+## 🗺️ Roadmap
 
-### Phase 1: MVP (Hackathon)
-- [x] Smart contract core functionality
-- [x] Basic UI/UX
-- [x] Merchant dashboard
-- [x] User marketplace
-- [x] QR redemption flow
-- [ ] 1 external API integration
+### Version 1.1.0 (Next)
+- [ ] Real blockchain integration (replace mock data)
+- [ ] Transaction signing and confirmation flows
+- [ ] Deal detail pages
+- [ ] Advanced filtering and search
+- [ ] Dark/Light theme toggle
 
-### Phase 2: Post-Hackathon
+### Version 1.2.0
+- [ ] NFT redemption with QR codes
+- [ ] Merchant verification process
+- [ ] Review and rating system
+- [ ] Points redemption
+- [ ] Email/Push notifications
+
+### Version 2.0.0 (Vision)
+- [ ] Secondary marketplace for trading
+- [ ] P2P trading with escrow
+- [ ] Merchant analytics dashboard
 - [ ] Mobile app (React Native)
-- [ ] Advanced analytics
-- [ ] AI-powered recommendations
-- [ ] Fiat payment integration
-- [ ] More API integrations
-- [ ] Multi-language support
+- [ ] Multi-chain support
 
-### Phase 3: Growth
-- [ ] White-label solution for businesses
-- [ ] Group buying features
-- [ ] Subscription model
-- [ ] Cross-chain expansion
-- [ ] DeFi integrations (staking, yield)
+See `CHANGELOG.md` for detailed roadmap.
 
 ---
 
-## Contributing
+## 🤝 Contributing
 
-We welcome contributions! Please see [CONTRIBUTING.md](./CONTRIBUTING.md) for details.
-
-### Development Workflow
+Contributions are welcome! Please follow these steps:
 
 1. Fork the repository
-2. Create feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit changes (`git commit -m 'Add amazing feature'`)
-4. Push to branch (`git push origin feature/amazing-feature`)
-5. Open Pull Request
+2. Create your feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'feat: add amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
+
+### Commit Convention
+We follow [Conventional Commits](https://www.conventionalcommits.org/):
+- `feat:` - New features
+- `fix:` - Bug fixes
+- `docs:` - Documentation changes
+- `style:` - Code style changes (formatting, etc.)
+- `refactor:` - Code refactoring
+- `test:` - Adding or updating tests
+- `chore:` - Maintenance tasks
 
 ---
 
-## Security
+## 📄 License
 
-### Audit Status
-- [ ] Internal code review
-- [ ] Community audit
-- [ ] Professional third-party audit
-
-### Reporting Vulnerabilities
-
-Please report security vulnerabilities to security@dealchain.app
-
-**Do not create public issues for security vulnerabilities.**
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ---
 
-## License
+## 🙏 Acknowledgments
 
-This project is licensed under the MIT License - see the [LICENSE](./LICENSE) file for details.
-
----
-
-## Team
-
-- **Lead Developer** - Blockchain Architecture
-- **Frontend Developer** - UI/UX Implementation
-- **Full-Stack Developer** - Backend & Integration
+- **Solana Foundation** - For the incredible blockchain platform
+- **Anchor** - For the amazing Solana development framework
+- **shadcn/ui** - For beautiful, accessible components
+- **Next.js Team** - For the best React framework
+- **Vercel** - For seamless deployments
 
 ---
 
-## Acknowledgments
+## 📞 Contact & Links
 
-- **MonkeDAO** for the grant opportunity
-- **Solana Foundation** for the incredible ecosystem
-- **Anchor Framework** for making Solana development accessible
-- **Metaplex** for NFT standards
-- **shadcn/ui** for beautiful components
-
----
-
-## Links
-
-- **Website**: https://dealchain.app
-- **Documentation**: https://docs.dealchain.app
-- **Twitter**: [@DealChainHQ](https://twitter.com/DealChainHQ)
-- **Discord**: https://discord.gg/dealchain
-- **GitHub**: https://github.com/dealchain/dealchain
+- **GitHub**: [github.com/pl974/dealchain](https://github.com/pl974/dealchain)
+- **Live Demo**: [Coming Soon]
+- **Documentation**: See project docs
+- **Issues**: [GitHub Issues](https://github.com/pl974/dealchain/issues)
 
 ---
 
-## Support
+<div align="center">
 
-Need help? Reach out:
+**Built with 💜 on Solana - Revolutionizing the Coupon Industry**
 
-- **Email**: support@dealchain.app
-- **Discord**: Join our community server
-- **GitHub Issues**: Open an issue for bugs/features
+[⭐ Star this repo](https://github.com/pl974/dealchain) | [🐛 Report Bug](https://github.com/pl974/dealchain/issues) | [💡 Request Feature](https://github.com/pl974/dealchain/issues)
 
----
-
-Built with 💜 on Solana | Powered by MonkeDAO
-
+</div>
