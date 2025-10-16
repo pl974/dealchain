@@ -8,6 +8,7 @@
 'use client'
 
 import * as React from 'react'
+import Link from 'next/link'
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
@@ -26,6 +27,7 @@ import {
   Tag,
   TrendingUp,
   Star,
+  Store,
 } from 'lucide-react'
 import { formatPrice, formatTimeAgo } from '@/lib/utils'
 
@@ -154,17 +156,15 @@ export default function MarketplacePage() {
       {/* Deals Grid */}
       <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
         {mockDeals.map((deal) => (
-          <Card
-            key={deal.id}
-            className="group hover:shadow-lg transition-all duration-300 overflow-hidden"
-          >
-            {/* Deal Image */}
-            <div className="relative h-48 overflow-hidden">
-              <img
-                src={deal.image}
-                alt={deal.title}
-                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-              />
+          <Link key={deal.id} href={`/marketplace/${deal.id}`}>
+            <Card className="group hover:shadow-lg transition-all duration-300 overflow-hidden cursor-pointer">
+              {/* Deal Image */}
+              <div className="relative h-48 overflow-hidden">
+                <img
+                  src={deal.image}
+                  alt={deal.title}
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                />
               <div className="absolute top-3 left-3">
                 <Badge variant="success" className="text-lg font-bold">
                   -{deal.discount}%
@@ -236,10 +236,11 @@ export default function MarketplacePage() {
             <CardFooter>
               <Button className="w-full gap-2" size="lg">
                 <TrendingUp className="h-4 w-4" />
-                Buy Now
+                View Details
               </Button>
             </CardFooter>
           </Card>
+        </Link>
         ))}
       </div>
 
@@ -252,6 +253,3 @@ export default function MarketplacePage() {
     </div>
   )
 }
-
-// Add Store import at the top with other icons
-import { Store } from 'lucide-react'
