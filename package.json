@@ -14,6 +14,8 @@
     "lint": "turbo run lint",
     "clean": "turbo run clean",
     "format": "prettier --write \"**/*.{ts,tsx,js,jsx,json,md}\"",
+    "format:check": "prettier --check \"**/*.{ts,tsx,js,jsx,json,md}\"",
+    "type-check": "turbo run type-check",
     "anchor:build": "cd packages/anchor && anchor build",
     "anchor:deploy": "cd packages/anchor && anchor deploy",
     "anchor:test": "cd packages/anchor && anchor test"
